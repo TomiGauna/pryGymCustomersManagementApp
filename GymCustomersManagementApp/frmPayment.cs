@@ -37,7 +37,17 @@ namespace GymCustomersManagementApp
 
         private void btnPay_Click(object sender, EventArgs e)
         {
-            handler.createPayment(txtIDNumber.Text, double.Parse(txtAmount.Text), cboMethod.Text);
+            if (txtIDNumber.Text == "" || txtAmount.Text == "" || cboMethod.SelectedIndex == -1)
+            {
+                MessageBox.Show("All fields are required", "Payment Processing: Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                handler.createPayment(txtIDNumber.Text, double.Parse(txtAmount.Text), cboMethod.Text);
+            }
+            txtIDNumber.Text = "";
+            txtAmount.Text = "";
+            cboMethod.SelectedIndex = -1;
         }
     }
 }

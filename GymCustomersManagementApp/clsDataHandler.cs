@@ -75,91 +75,134 @@ namespace GymCustomersManagementApp
             DS.Tables[tableName].PrimaryKey = DC;
         }
 
-        public void CreateCustomer(
-            string DNI, 
+        public void CreateCustomer( 
             string lastName, 
-            string firstName, 
+            string firstName,
+            string DNI,
             string email, 
-            int phNumber, 
+            long phNumber, 
             DateTime DOB,
             string membership
             )
         {
-            DataRow newRow = DS.Tables["Customers"].NewRow();
-            newRow["DNI"] = DNI;
-            newRow["Apellido"] = lastName;
-            newRow["Nombre"] = firstName;
-            newRow["Correo"] = email;
-            newRow["Telefono"] = phNumber;
-            newRow["FechaNacimiento"] = DOB;
-            newRow["Suscripcion"] = membership;
+            try
+            {
+                DataRow newRow = DS.Tables["Customers"].NewRow();
+                newRow["DNI"] = DNI;
+                newRow["Apellido"] = lastName;
+                newRow["Nombre"] = firstName;
+                newRow["Correo"] = email;
+                newRow["Telefono"] = phNumber;
+                newRow["FechaNacimiento"] = DOB.Date;
+                newRow["Suscripcion"] = membership;
 
-            DS.Tables["Customers"].Rows.Add(newRow);
-            customersDA.Update(DS, "Customers");
+                DS.Tables["Customers"].Rows.Add(newRow);
+                customersDA.Update(DS, "Customers");
+                MessageBox.Show("Customer registered successfully", "Regristration Process: Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"Fail to register new customer: {ex.Message}", "Registration Process: Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
 
         public void UpdateCustomer(string DNI, string field, string newData)
         {
-            for (int i = 0; i < DS.Tables["Customers"].Rows.Count; i++)
+            try
             {
-                DataRow row = DS.Tables["Customers"].Rows[i];
-
-                if (row["DNI"].ToString() == DNI.ToString())
+                for (int i = 0; i < DS.Tables["Customers"].Rows.Count; i++)
                 {
-                    row.BeginEdit();
-                    if (field == "Fecha de Nacimiento")
+                    DataRow row = DS.Tables["Customers"].Rows[i];
+
+                    if (row["DNI"].ToString() == DNI.ToString())
                     {
-                        DateTime date = DateTime.Parse(newData);
-                        row[field] = date;
+                        row.BeginEdit();
+                        if (field == "FechaNacimiento")
+                        {
+                            DateTime date = DateTime.Parse(newData);
+                            row[field] = date.ToShortDateString();
+                        }
+                        else
+                        {
+                            row[field] = newData;
+                        }
+                        row.EndEdit();
+                        break;
                     }
-                    else
-                    {
-                        row[field] = newData;
-                    }
-                    row.EndEdit();
-                    break;
                 }
+                customersDA.Update(DS, "Customers");
+                MessageBox.Show("Customer updated successfully", "Update Process: Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            customersDA.Update(DS, "Customers");
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fail to update customer: {ex.Message}", "Update Process: Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         public void DeleteCustomer (string DNI)
         {
-            for (int i = 0; i < DS.Tables["Customers"].Rows.Count; i++)
+            try
             {
-                DataRow row = DS.Tables["Customers"].Rows[i];
-                if (row["DNI"].ToString() == DNI.ToString())
+                for (int i = 0; i < DS.Tables["Customers"].Rows.Count; i++)
                 {
-                    row.Delete();
-                    break;
+                    DataRow row = DS.Tables["Customers"].Rows[i];
+                    if (row["DNI"].ToString() == DNI.ToString())
+                    {
+                        row.Delete();
+                        break;
+                    }
                 }
+                customersDA.Update(DS, "Customers");
+                MessageBox.Show("Customer deleted successfully", "Removal Process: Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            customersDA.Update(DS, "Customers");
+            catch (Exception ex) 
+            {
+                MessageBox.Show($"Fail to delete customer: {ex.Message}", "Removal Process: Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public void createPayment(string DNI, double amount, string method)
         {
-            DataRow newRow = DS.Tables["Payments"].NewRow();
-            newRow["Cliente"] = DNI;
-            newRow["Monto"] = amount;
-            newRow["Método"] = method;
-            newRow["Fecha"] = DateTime.Now;
+            try
+            {
+                DataRow newRow = DS.Tables["Payments"].NewRow();
+                newRow["Cliente"] = DNI;
+                newRow["Monto"] = amount;
+                newRow["Método"] = method;
+                newRow["Fecha"] = DateTime.Now;
 
-            DS.Tables["Payments"].Rows.Add(newRow);
-            paymentsDA.Update(DS, "Payments");
+                DS.Tables["Payments"].Rows.Add(newRow);
+                paymentsDA.Update(DS, "Payments");
+                MessageBox.Show("Payment registered successfully", "Payment Makeup: Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error registrating payment: " + ex.Message, "Error Information: Payment Processing", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
         }
 
         public void createActivity(string activity, string space, string hour, DateTime date, string provider)
         {
-            DataRow newRow = DS.Tables["Classes"].NewRow();
-            newRow["Actividad"] = activity;
-            newRow["Espacio"] = space;
-            newRow["Hora"] = hour;
-            newRow["DictadoPor"] = provider;
-            newRow["Fecha"] = date.Date;
+            try
+            {
+                DataRow newRow = DS.Tables["Classes"].NewRow();
+                newRow["Actividad"] = activity;
+                newRow["Espacio"] = space;
+                newRow["Hora"] = hour;
+                newRow["DictadoPor"] = provider;
+                newRow["Fecha"] = date.ToShortDateString();
 
-            DS.Tables["Classes"].Rows.Add(newRow);
-            activitiesDA.Update(DS, "Classes");
+                DS.Tables["Classes"].Rows.Add(newRow);
+                activitiesDA.Update(DS, "Classes");
+                MessageBox.Show("Activity registered successfully", "Activity Registration: Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error registrating activity: " + ex.Message, "Error Information: Activity Registration", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public void AttendanceControl(string userNumber, string activity, string date, string time)
@@ -182,6 +225,7 @@ namespace GymCustomersManagementApp
                     
                 }
                 activitiesDA.Update(DS, "Classes");
+                MessageBox.Show("Attendance registered successfully", "Attendance Process: Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {

@@ -37,11 +37,37 @@ namespace GymCustomersManagementApp
             lblChangeField.Text = "Choose the field";
             lblChangeID.Text = "ID Number or SSN";
             lblChangeData.Text = "Enter new data";
+            lblRemoveTitle.Text = "DELETE A CUSTOMER FROM DB";
+            lblCodeDelete.Text = "Enter an ID Number or SSN";
 
             btnChange.Text = "Update";
             btnSelectActivity.Text = "Select Activity";
             btnPay.Text = "Pay";
             btnRegister.Text = "Register";
+            btnDelete.Text = "Delete";
+
+            cboSuscription.Items.Clear();
+            cboSuscription.Items.Add("Premium");
+            cboSuscription.Items.Add("Estándar");
+            cboSuscription.Items.Add("Básica");
+
+            cboFieldChange.Items.Clear();
+            cboFieldChange.Items.Add("Apellido");
+            cboFieldChange.Items.Add("Nombre");
+            cboFieldChange.Items.Add("DNI");
+            cboFieldChange.Items.Add("Correo");
+            cboFieldChange.Items.Add("Telefono");
+            cboFieldChange.Items.Add("FechaNacimiento");
+            cboFieldChange.Items.Add("Suscripcion");
+
+            cboCategoryChange.Items.Clear();
+            cboCategoryChange.Items.Add("Premium");
+            cboCategoryChange.Items.Add("Estándar");
+            cboCategoryChange.Items.Add("Básica");
+
+            txtChange.Enabled = false;
+            cboCategoryChange.Enabled = false;
+            dtpChange.Enabled = false;
         }
 
         private void btnPay_Click(object sender, EventArgs e)
@@ -58,28 +84,100 @@ namespace GymCustomersManagementApp
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
+            if (
+                txtLastName.Text == "" ||
+                txtName.Text == "" ||
+                txtDNI.Text == "" ||
+                txtEmail.Text == "" ||
+                txtPhNumber.Text == "" ||
+                dtpDOB.Value == DateTime.Now ||
+                cboSuscription.SelectedIndex == -1
+                )
+            {
+                MessageBox.Show("All fields must be filled", "Registration Form: Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             DH.CreateCustomer(
                 txtLastName.Text,
                 txtName.Text,
                 txtDNI.Text,
                 txtEmail.Text,
-                int.Parse(txtPhNumber.Text),
+                long.Parse(txtPhNumber.Text),
                 dtpDOB.Value,
                 cboSuscription.Text
                 );
+
+            txtLastName.Text = string.Empty;
+            txtName.Text = string.Empty;
+            txtDNI.Text = string.Empty;
+            txtEmail.Text = string.Empty;
+            txtPhNumber.Text = string.Empty;
+            cboSuscription.Text = string.Empty;
+            dtpDOB.Value = DateTime.Now;
         }
 
         private void btnChange_Click(object sender, EventArgs e)
         {
-            if (cboFieldChange.Text == "Fecha")
+            if (txtIDChange.Text == "" || cboFieldChange.SelectedIndex == -1)
             {
-                DH.UpdateCustomer(txtIDChange.Text, cboFieldChange.Text, dtpChange.Value.ToString());
+                MessageBox.Show("An ID Number and a field to change are required", "Update Form: Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                DH.UpdateCustomer(txtIDChange.Text, cboFieldChange.Text, txtChange.Text);
-            }
+                if (cboFieldChange.Text == "FechaNacimiento")
+                {
+                    DH.UpdateCustomer(txtIDChange.Text, cboFieldChange.Text, dtpChange.Value.ToString());
+                }
+                else if (cboFieldChange.Text == "Suscripcion")
+                {
+                    DH.UpdateCustomer(txtIDChange.Text, cboFieldChange.Text, cboCategoryChange.Text);
+                }
+                else
+                {
+                    DH.UpdateCustomer(txtIDChange.Text, cboFieldChange.Text, txtChange.Text);
+                }
+            }           
 
+            txtIDChange.Text = string.Empty;
+            cboFieldChange.SelectedIndex = -1;
+            dtpChange.Text = string.Empty;
+            cboCategoryChange.SelectedIndex = -1;
+            txtChange.Text = string.Empty;
+        }
+
+        private void cboFieldChange_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboFieldChange.Text == "FechaNacimiento")
+            {
+                txtChange.Enabled = false;
+                cboCategoryChange.Enabled = false;
+                dtpChange.Enabled = true;
+            }
+            else if (cboFieldChange.Text == "Suscripcion")
+            {
+                txtChange.Enabled = false;
+                cboCategoryChange.Enabled = true;
+                dtpChange.Enabled = false;
+            }
+            else
+            {
+                txtChange.Enabled = true;
+                cboCategoryChange.Enabled = false;
+                dtpChange.Enabled = false;
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (txtDelete.Text == "")
+            {
+                MessageBox.Show("An ID Number is required", "Removal Form: Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                DH.DeleteCustomer(txtDelete.Text);
+            }
+            
+            txtDelete.Text = string.Empty;
         }
     }
 }

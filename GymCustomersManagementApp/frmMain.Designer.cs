@@ -57,6 +57,11 @@
             this.lblChangeData = new System.Windows.Forms.Label();
             this.dtpChange = new System.Windows.Forms.DateTimePicker();
             this.btnChange = new System.Windows.Forms.Button();
+            this.cboCategoryChange = new System.Windows.Forms.ComboBox();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.lblRemoveTitle = new System.Windows.Forms.Label();
+            this.txtDelete = new System.Windows.Forms.TextBox();
+            this.lblCodeDelete = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblLastName
@@ -237,6 +242,7 @@
             this.cboFieldChange.Name = "cboFieldChange";
             this.cboFieldChange.Size = new System.Drawing.Size(207, 21);
             this.cboFieldChange.TabIndex = 28;
+            this.cboFieldChange.SelectedIndexChanged += new System.EventHandler(this.cboFieldChange_SelectedIndexChanged);
             // 
             // lblChangeID
             // 
@@ -290,14 +296,14 @@
             // 
             // dtpChange
             // 
-            this.dtpChange.Location = new System.Drawing.Point(329, 183);
+            this.dtpChange.Location = new System.Drawing.Point(328, 211);
             this.dtpChange.Name = "dtpChange";
             this.dtpChange.Size = new System.Drawing.Size(207, 20);
             this.dtpChange.TabIndex = 35;
             // 
             // btnChange
             // 
-            this.btnChange.Location = new System.Drawing.Point(329, 210);
+            this.btnChange.Location = new System.Drawing.Point(329, 242);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(206, 23);
             this.btnChange.TabIndex = 36;
@@ -305,11 +311,59 @@
             this.btnChange.UseVisualStyleBackColor = true;
             this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
             // 
+            // cboCategoryChange
+            // 
+            this.cboCategoryChange.FormattingEnabled = true;
+            this.cboCategoryChange.Location = new System.Drawing.Point(329, 184);
+            this.cboCategoryChange.Name = "cboCategoryChange";
+            this.cboCategoryChange.Size = new System.Drawing.Size(207, 21);
+            this.cboCategoryChange.TabIndex = 37;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(328, 463);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(206, 23);
+            this.btnDelete.TabIndex = 38;
+            this.btnDelete.Text = "button1";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // lblRemoveTitle
+            // 
+            this.lblRemoveTitle.AutoSize = true;
+            this.lblRemoveTitle.Location = new System.Drawing.Point(344, 397);
+            this.lblRemoveTitle.Name = "lblRemoveTitle";
+            this.lblRemoveTitle.Size = new System.Drawing.Size(35, 13);
+            this.lblRemoveTitle.TabIndex = 39;
+            this.lblRemoveTitle.Text = "label1";
+            // 
+            // txtDelete
+            // 
+            this.txtDelete.Location = new System.Drawing.Point(329, 437);
+            this.txtDelete.Name = "txtDelete";
+            this.txtDelete.Size = new System.Drawing.Size(205, 20);
+            this.txtDelete.TabIndex = 40;
+            // 
+            // lblCodeDelete
+            // 
+            this.lblCodeDelete.AutoSize = true;
+            this.lblCodeDelete.Location = new System.Drawing.Point(326, 420);
+            this.lblCodeDelete.Name = "lblCodeDelete";
+            this.lblCodeDelete.Size = new System.Drawing.Size(35, 13);
+            this.lblCodeDelete.TabIndex = 41;
+            this.lblCodeDelete.Text = "label1";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(605, 450);
+            this.ClientSize = new System.Drawing.Size(605, 498);
+            this.Controls.Add(this.lblCodeDelete);
+            this.Controls.Add(this.txtDelete);
+            this.Controls.Add(this.lblRemoveTitle);
+            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.cboCategoryChange);
             this.Controls.Add(this.btnChange);
             this.Controls.Add(this.dtpChange);
             this.Controls.Add(this.lblChangeData);
@@ -379,6 +433,11 @@
         private System.Windows.Forms.Label lblChangeData;
         private System.Windows.Forms.DateTimePicker dtpChange;
         private System.Windows.Forms.Button btnChange;
+        private System.Windows.Forms.ComboBox cboCategoryChange;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Label lblRemoveTitle;
+        private System.Windows.Forms.TextBox txtDelete;
+        private System.Windows.Forms.Label lblCodeDelete;
     }
 }
 

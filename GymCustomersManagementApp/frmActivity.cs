@@ -67,13 +67,32 @@ namespace GymCustomersManagementApp
 
         private void btnSchedule_Click(object sender, EventArgs e)
         {
-            DH.createActivity(
+            if (
+                cboActivity.SelectedIndex == -1 ||
+                cboSpace.SelectedIndex == -1 ||
+                cboHour.SelectedIndex == -1 ||
+                dtpSchedule.Text == "" ||
+                dtpSchedule.Value == DateTime.Now || 
+                txtProvider.Text == "")
+            {
+                MessageBox.Show("All fields are required", "Payment Processing: Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                DH.createActivity(
                 cboActivity.Text,
                 cboSpace.Text,
                 cboHour.Text,
                 dtpSchedule.Value,
                 txtProvider.Text
                 );
+            }
+
+            cboActivity.SelectedIndex = -1;
+            cboSpace.SelectedIndex = -1;
+            cboHour.SelectedIndex = -1;
+            dtpSchedule.Value = DateTime.Now;
+            txtProvider.Text = "";
         }
     }
 }
